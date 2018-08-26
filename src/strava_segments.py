@@ -44,8 +44,7 @@ def main(segment_id):
                             if seg.id in ids:
                                 continue
                             ids.append(seg.id)
-                            w = round(abs(main_seg.average_grade - seg.avg_grade))
-                             + abs(main_seg.distance.num - seg.distance.num)/5000.0
+                            w = round(abs(main_seg.average_grade - seg.avg_grade)) + abs(main_seg.distance.num - seg.distance.num)/5000.0
                             priority_queue.put((w, seg.id))
 
     print(j, len(ids))
