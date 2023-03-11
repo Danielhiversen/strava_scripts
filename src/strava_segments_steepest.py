@@ -10,7 +10,7 @@ N = 10
 
 
 def main(segment_id):
-    client = stravalib.client.Client(access_token='1a310aaf6d7b13664943ed2e91af8289e1b07320',
+    client = stravalib.client.Client(access_token='5c00344322524c76861d7c6ba047390ea88cdba4',
                                      rate_limiter=SleepingRateLimitRule(priority='low'))
 
     main_seg = client.get_segment(segment_id=segment_id)
@@ -45,9 +45,11 @@ def main(segment_id):
                             if seg.id in ids:
                                 continue
                             ids.append(seg.id)
-                            # w = round(abs(main_seg.average_grade - seg.avg_grade)) + abs(main_seg.distance.num - seg.distance.num)/5000.0
-                            w = round(abs((main_seg.elevation_high.num - main_seg.elevation_low.num) - seg.elev_difference.num)) + abs(main_seg.distance.num - seg.distance.num)/5000.0
-                            priority_queue.put((w, seg.id))
+                            if seg.avg_grade < 20 or seg.elev_difference.num < 250:
+                                continue
+
+                            print(seg.id, seg.avg_grade , seg.elev_difference.num)
+                            priority_queue.put((1000 - seg.elev_difference.num, seg.id))
 
     print("--------")
     print(j, len(ids))
